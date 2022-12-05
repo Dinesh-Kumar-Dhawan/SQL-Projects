@@ -12,14 +12,17 @@ select * from apocolypse_Store;
 
 -- max unit sold product
 
-select `Product ID`, max(`Units Sold`)
-from apocolypse_sales;
+select apocolypse_Store.`Product ID`, `Product Name`, sum(`Units Sold`) as max_sold from apocolypse_sales join apocolypse_Store 
+on apocolypse_sales.`Product ID`=apocolypse_Store.`Product ID`
+group by apocolypse_Store.`Product ID`
+order by max_sold desc;
 
 -- Top 5 unit sold products details list 
 
-select *
-from apocolypse_sales
-order by `Units Sold` desc
+select apocolypse_Store.`Product ID`, `Product Name`, sum(`Units Sold`) as max_sold from apocolypse_sales join apocolypse_Store 
+on apocolypse_sales.`Product ID`=apocolypse_Store.`Product ID`
+group by apocolypse_Store.`Product ID`
+order by max_sold desc
 limit 5;
 
 -- distinct customers
@@ -46,11 +49,6 @@ select * from apocolypse_Store;
 
 -- joined apocolypse_sales and apocolypse_store
 -- store tada in new table created as  Apocolypse_Sales_Store
-
-create table Apocolypse_Sales_Store as
-select A.Customer,A.`Product ID`,B.`Product Name`,A.`Order ID`,A.`Units Sold`,B.Price,B.`Production Cost`,A.`Date Purchased`
-from apocolypse_sales as A right join apocolypse_store as B
-on A.`Product ID`=B.`Product ID`;
 
 select * from apocolypse_sales_store;
 
